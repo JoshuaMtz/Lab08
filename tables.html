@@ -12,7 +12,21 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 </head>
-
+<style>
+  #list{
+    border: #6c757d 1px solid;
+    margin: 5px;
+  }
+  li{
+    padding: 10px;
+    font-size: 25px;
+    font-weight: bold;
+    list-style: none;
+  }
+  h3{
+    border-bottom:#6c757d 1px solid;
+  }
+</style>
 <body>
 
   <div class="container">
@@ -70,8 +84,52 @@
 
 <!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS LOADED FROM OUR SERVER -->
 <script type="text/javascript">
+  $.get("/api/tables",function(data){
+    //console.log("Datos de las mesas reservadas: " + data)
+    for(var i = 0; i < data.length; i++){
+      var name = data[i].Name;
+      var phone = data[i].Phone;
+      var email = data[i].Email;
+      var id = data[i].ID;
+      $("#tableList").append(`
+            <div><li id = "list">
+              <h3>Table # ${i+1}</h3>
+              ID: ${id}<br>
+              Name: ${name}<br>
+              Email: ${email}<br>
+              Phone: ${phone}<br>
+            </div>`
+      );
+    }
+  })
 
+  $.get("/api/waitlist",function(data){
+    //console.log("Datos de las mesas en lista de espera: " + data)
+    for(var i = 0; i < data.length; i++){
+      var name = data[i].Name;
+      var phone = data[i].Phone;
+      var email = data[i].Email;
+      var id = data[i].ID;
+      $("#waitList").append(`
+            <div><li id = "list">
+              <h3>Table# ${i+1}</h3>
+              ID: ${id}<br>
+              Name: ${name}<br>
+              Email: ${email}<br>
+              Phone: ${phone}<br>
+            </div>`
+      );
+    }
+  })
+  function clearTable() {
+    alert("Clearing...");
+    $.ajax({ url: "/api/clear", method: "POST" }).then(function() {
+      $("#waitList").remove();
+      $("#tableList").remove();
+    });
+  }
 
+  $("#clear").on("click", clearTable);
 
 
 </script>
