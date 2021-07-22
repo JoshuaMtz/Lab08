@@ -84,6 +84,8 @@
 
 <!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS LOADED FROM OUR SERVER -->
 <script type="text/javascript">
+  //window.onload = function()
+
   $.get("/api/tables",function(data){
     //console.log("Datos de las mesas reservadas: " + data)
     for(var i = 0; i < data.length; i++){
