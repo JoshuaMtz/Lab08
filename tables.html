@@ -126,9 +126,14 @@
   function clearTable() {
     alert("Clearing...");
     $.ajax({ url: "/api/clear", method: "POST" }).then(function() {
-      $("#waitList").remove();
-      $("#tableList").remove();
+      var wait_List = $("#waitList");
+      var table_List = $("tableList");
+      wait_List.parent().remove();
+      table_List.parent().remove();
+      //$("#waitList").remove();
+      //$("#tableList").remove();
     });
+    location.reload();
   }
 
   $("#clear").on("click", clearTable);
